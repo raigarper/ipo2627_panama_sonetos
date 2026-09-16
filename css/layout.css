@@ -1,0 +1,93 @@
+/* layout.css — composición estructural.
+   Todo nodo estructural o intermedio compone con Grid o Flexbox;
+   el flujo normal queda reservado a los elementos hoja de texto. */
+
+.pagina {
+    min-block-size: 100vh;
+    background-color: var(--color-panel);
+    color: var(--color-tinta);
+
+    font-family: var(--fuente-interfaz);
+    line-height: var(--ritmo-interfaz);
+
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.cabecera {
+    padding: var(--espacio-l) var(--espacio-xl) var(--espacio-m);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+}
+
+.lector {
+    padding: var(--espacio-m) var(--espacio-xl) var(--espacio-xl);
+
+    display: grid;
+    grid-template-columns: minmax(16rem, 26%) 1fr;
+    gap: var(--espacio-xl);
+    align-items: start;
+}
+
+.buscador {
+    position: sticky;
+    inset-block-start: var(--espacio-m);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-s);
+}
+
+.buscador__caja {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.soneto {
+    inline-size: 100%;
+    min-block-size: 60vh;
+    padding: var(--espacio-xl) var(--espacio-l);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--espacio-l);
+}
+
+.soneto__cuerpo {
+    inline-size: min(100%, var(--medida-verso));
+
+    display: flex;
+    flex-direction: column;
+}
+
+.soneto__encabezado {
+    inline-size: min(100%, var(--medida-verso));
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--espacio-xs);
+}
+
+.pie {
+    padding: var(--espacio-m) var(--espacio-xl);
+
+    display: flex;
+    justify-content: center;
+}
+
+@media (width < 48em) {
+
+    .lector {
+        grid-template-columns: 1fr;
+        gap: var(--espacio-l);
+    }
+
+    .buscador {
+        position: static;
+    }
+}

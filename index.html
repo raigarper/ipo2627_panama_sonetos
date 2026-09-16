@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sonetos · Lector</title>
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+
+  <script type="module" src="js/app.js"></script>
+</head>
+
+<body class="pagina">
+
+  <header class="cabecera">
+    <h1 class="cabecera__titulo">Sonetos</h1>
+    <p class="cabecera__lema">Catorce versos para leer despacio</p>
+  </header>
+
+  <main class="lector">
+
+    <aside class="buscador" data-buscador>
+      <label class="buscador__etiqueta" for="buscador-campo">Buscar soneto</label>
+
+      <div class="buscador__caja">
+        <input class="buscador__campo" id="buscador-campo" type="search" role="combobox"
+               placeholder="Por título, autor o verso…" autocomplete="off" spellcheck="false"
+               aria-expanded="false" aria-controls="buscador-lista" aria-autocomplete="list"
+               data-buscador-campo>
+
+        <ul class="buscador__lista" id="buscador-lista" role="listbox" aria-label="Sonetos disponibles"
+            hidden data-buscador-lista></ul>
+      </div>
+
+      <p class="buscador__ayuda">Escribe para filtrar el almacén de sonetos.</p>
+    </aside>
+
+    <article class="soneto soneto--vacio" aria-live="polite" data-soneto></article>
+
+  </main>
+
+  <footer class="pie">
+    <p class="pie__texto">Práctica de Interacción Persona-Ordenador · Lector de sonetos</p>
+  </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+/* variables.css — sistema de diseño centralizado en :root
+   Estrategia cromática: MONOCROMÁTICA sepia.
+   Un único tono (--tono: 35) del que se derivan todos los colores
+   variando exclusivamente saturación y luminosidad mediante calc(). */
+
+:root {
+
+    /* --- Cromática: tono y saturaciones base --- */
+    --tono: 35;
+
+    --saturacion: 30%;
+    --saturacion-suave: calc(var(--saturacion) - 15%);
+    --saturacion-viva: calc(var(--saturacion) + 25%);
+    --saturacion-tinta: calc(var(--saturacion) - 10%);
+
+    /* --- Cromática: superficies (figura y fondo) --- */
+    --color-lienzo: hsl(var(--tono), var(--saturacion-suave), 96%);
+    --color-panel: hsl(var(--tono), var(--saturacion), 90%);
+    --color-panel-realce: hsl(var(--tono), var(--saturacion), 82%);
+    --color-borde: hsl(var(--tono), var(--saturacion-suave), 70%);
+    --color-sombra: hsla(var(--tono), var(--saturacion-tinta), 14%, 0.18);
+
+    /* --- Cromática: tintas --- */
+    --color-tinta: hsl(var(--tono), var(--saturacion-tinta), 14%);
+    --color-tinta-suave: hsl(var(--tono), var(--saturacion-tinta), 34%);
+    --color-acento: hsl(var(--tono), var(--saturacion-viva), 32%);
+    --color-acento-texto: hsl(var(--tono), var(--saturacion-suave), 97%);
+    --color-marca: hsl(var(--tono), var(--saturacion-viva), 78%);
+
+    /* --- Tipografía: dos familias contrastadas --- */
+    --fuente-lectura: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --fuente-interfaz: "Segoe UI", system-ui, -apple-system, sans-serif;
+
+    --escala-verso: clamp(1rem, 0.85rem + 0.6vw, 1.3rem);
+    --escala-titulo: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
+    --escala-subtitulo: clamp(1.25rem, 1rem + 0.9vw, 1.8rem);
+    --escala-menor: 0.85rem;
+
+    --ritmo-verso: 1.7;
+    --ritmo-interfaz: 1.45;
+    --rasgo-titulo: 0.02em;
+
+    /* --- Espacial: medidas y ritmo --- */
+    --medida-verso: 34em;               /* ≈ 60 caracteres por línea */
+    --espacio-verso: 0.15em;
+    --espacio-estrofa: 1.9em;           /* Gestalt (proximidad): ≫ interlineado */
+
+    --espacio-xs: 0.35rem;
+    --espacio-s: 0.7rem;
+    --espacio-m: 1.2rem;
+    --espacio-l: 2rem;
+    --espacio-xl: clamp(2rem, 4vw, 4rem);
+
+    --radio: 0.4rem;
+    --borde-fino: 1px;
+}

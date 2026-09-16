@@ -1,0 +1,212 @@
+/* components.css — bloques BEM con anidamiento nativo.
+   Contraste tipográfico: sans-serif para la interfaz, serif para la lectura. */
+
+/* ---------- Cabecera y pie (interfaz) ---------- */
+
+.cabecera {
+
+    .cabecera__titulo {
+        font-family: var(--fuente-lectura);
+        font-size: var(--escala-titulo);
+        font-weight: 400;
+        letter-spacing: var(--rasgo-titulo);
+        color: var(--color-acento);
+    }
+
+    .cabecera__lema {
+        font-size: var(--escala-menor);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--color-tinta-suave);
+    }
+}
+
+.pie {
+
+    .pie__texto {
+        font-size: var(--escala-menor);
+        color: var(--color-tinta-suave);
+    }
+}
+
+/* ---------- Buscador (combobox) ---------- */
+
+.buscador {
+
+    .buscador__etiqueta {
+        font-size: var(--escala-menor);
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--color-tinta-suave);
+    }
+
+    .buscador__campo {
+        inline-size: 100%;
+        padding: var(--espacio-s) var(--espacio-m);
+
+        background-color: var(--color-lienzo);
+        color: var(--color-tinta);
+        border: var(--borde-fino) solid var(--color-borde);
+        border-radius: var(--radio);
+
+        transition: border-color 0.2s, box-shadow 0.2s;
+
+        &::placeholder {
+            color: var(--color-tinta-suave);
+        }
+    }
+
+    .buscador__campo--abierto {
+        border-color: var(--color-acento);
+        box-shadow: 0 0 0 0.12em var(--color-sombra);
+    }
+
+    .buscador__lista {
+        position: absolute;
+        inset-block-start: calc(100% + var(--espacio-xs));
+        inset-inline: 0;
+        z-index: 1;
+
+        max-block-size: min(22rem, 50vh);
+        overflow-y: auto;
+
+        background-color: var(--color-lienzo);
+        border: var(--borde-fino) solid var(--color-borde);
+        border-radius: var(--radio);
+        box-shadow: 0 0.4em 1.2em var(--color-sombra);
+
+        display: flex;
+        flex-direction: column;
+    }
+
+    .buscador__opcion {
+        padding: var(--espacio-s) var(--espacio-m);
+        cursor: pointer;
+
+        border-block-end: var(--borde-fino) solid var(--color-panel);
+
+        display: flex;
+        flex-direction: column;
+        gap: 0.1em;
+
+        &:last-child {
+            border-block-end: none;
+        }
+    }
+
+    .buscador__opcion--activa {
+        background-color: var(--color-acento);
+
+        .buscador__opcion-titulo,
+        .buscador__opcion-autor,
+        .buscador__opcion-verso {
+            color: var(--color-acento-texto);
+        }
+
+        .buscador__marca {
+            background-color: transparent;
+            color: var(--color-acento-texto);
+            text-decoration: underline;
+        }
+    }
+
+    .buscador__opcion--seleccionada {
+        background-color: var(--color-panel-realce);
+    }
+
+    .buscador__opcion-titulo {
+        font-family: var(--fuente-lectura);
+        font-size: 1.05em;
+        color: var(--color-tinta);
+    }
+
+    .buscador__opcion-autor {
+        font-size: var(--escala-menor);
+        color: var(--color-tinta-suave);
+    }
+
+    .buscador__opcion-verso {
+        font-family: var(--fuente-lectura);
+        font-size: var(--escala-menor);
+        font-style: italic;
+        color: var(--color-tinta-suave);
+    }
+
+    .buscador__marca {
+        background-color: var(--color-marca);
+        color: var(--color-tinta);
+    }
+
+    .buscador__vacio {
+        padding: var(--espacio-m);
+        font-size: var(--escala-menor);
+        color: var(--color-tinta-suave);
+    }
+
+    .buscador__ayuda {
+        font-size: var(--escala-menor);
+        color: var(--color-tinta-suave);
+    }
+}
+
+/* ---------- Soneto (lienzo de lectura) ---------- */
+
+.soneto {
+    background-color: var(--color-lienzo);
+    border: var(--borde-fino) solid var(--color-borde);
+    border-radius: var(--radio);
+    box-shadow: 0 0.3em 1.6em var(--color-sombra);
+
+    font-family: var(--fuente-lectura);
+
+    opacity: 1;
+    transition: opacity 0.35s ease;
+
+    .soneto__titulo {
+        font-size: var(--escala-subtitulo);
+        font-weight: 400;
+        letter-spacing: var(--rasgo-titulo);
+        color: var(--color-tinta);
+        text-align: center;
+    }
+
+    .soneto__autor {
+        font-family: var(--fuente-interfaz);
+        font-size: var(--escala-menor);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-acento);
+        text-align: center;
+    }
+
+    .soneto__verso {
+        font-size: var(--escala-verso);
+        line-height: var(--ritmo-verso);
+        margin-block-end: var(--espacio-verso);
+        color: var(--color-tinta);
+        text-wrap: pretty;
+    }
+
+    /* Gestalt · proximidad: el hueco entre estrofas supera con creces
+       la separación entre versos de una misma estrofa. */
+    .soneto__estrofa+.soneto__estrofa {
+        margin-block-start: var(--espacio-estrofa);
+    }
+
+    .soneto__mensaje {
+        max-inline-size: min(100%, var(--medida-verso));
+        font-size: var(--escala-verso);
+        font-style: italic;
+        color: var(--color-tinta-suave);
+        text-align: center;
+    }
+}
+
+.soneto--vacio {
+    justify-content: center;
+}
+
+.soneto--entrando {
+    opacity: 0;
+}

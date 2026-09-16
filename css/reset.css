@@ -1,0 +1,39 @@
+/* reset.css — normalización previa a cualquier decisión de diseño */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    text-rendering: optimizeLegibility;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img,
+svg {
+    display: block;
+    max-inline-size: 100%;
+}
+
+input,
+button {
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: none;
+}
+
+:focus-visible {
+    outline: 0.15em solid var(--color-acento);
+    outline-offset: 0.15em;
+}
