@@ -1,25 +1,42 @@
 /* components.css — bloques BEM con anidamiento nativo.
    Contraste tipográfico: sans-serif para la interfaz, serif para la lectura. */
 
-/* ---------- Cabecera y pie (interfaz) ---------- */
+/* ---------- Utilidad de accesibilidad ---------- */
 
-.cabecera {
+.visualmente-oculta {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
 
-    .cabecera__titulo {
+/* ---------- Portada (vista de inicio) ---------- */
+
+.portada {
+
+    .portada__titulo {
         font-family: var(--fuente-lectura);
-        font-size: var(--escala-titulo);
+        font-size: var(--escala-portada);
         font-weight: 400;
+        line-height: 1.05;
         letter-spacing: var(--rasgo-titulo);
         color: var(--color-acento);
+        text-align: center;
     }
 
-    .cabecera__lema {
+    /* Jerarquía: el lema cede todo el protagonismo al título. */
+    .portada__lema {
         font-size: var(--escala-menor);
-        letter-spacing: 0.08em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
         color: var(--color-tinta-suave);
+        text-align: center;
     }
 }
+
+/* ---------- Pie ---------- */
 
 .pie {
 
@@ -29,22 +46,47 @@
     }
 }
 
+/* ---------- Botón ---------- */
+
+.boton {
+    padding: var(--espacio-xs) var(--espacio-m);
+    cursor: pointer;
+
+    font-size: var(--escala-menor);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-acento);
+
+    background-color: transparent;
+    border: var(--borde-fino) solid var(--color-borde);
+    border-radius: var(--radio);
+
+    display: flex;
+    align-items: center;
+    gap: var(--espacio-xs);
+
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+
+    &:hover {
+        background-color: var(--color-acento);
+        border-color: var(--color-acento);
+        color: var(--color-acento-texto);
+    }
+
+    .boton__icono {
+        font-size: 1.1em;
+    }
+}
+
 /* ---------- Buscador (combobox) ---------- */
 
 .buscador {
-
-    .buscador__etiqueta {
-        font-size: var(--escala-menor);
-        font-weight: 600;
-        letter-spacing: 0.06em;
-        text-transform: uppercase;
-        color: var(--color-tinta-suave);
-    }
 
     .buscador__campo {
         inline-size: 100%;
         padding: var(--espacio-s) var(--espacio-m);
 
+        font-size: 1.05rem;
         background-color: var(--color-lienzo);
         color: var(--color-tinta);
         border: var(--borde-fino) solid var(--color-borde);
@@ -68,7 +110,9 @@
         inset-inline: 0;
         z-index: 1;
 
-        max-block-size: min(22rem, 50vh);
+        /* Techo relativo a la altura de la ventana: el desplegable se desplaza
+           por dentro antes que empujar el scroll de la página. */
+        max-block-size: min(20rem, 45vh);
         overflow-y: auto;
 
         background-color: var(--color-lienzo);
@@ -76,8 +120,16 @@
         border-radius: var(--radio);
         box-shadow: 0 0.4em 1.2em var(--color-sombra);
 
+        text-align: start;
+
         display: flex;
         flex-direction: column;
+    }
+
+    /* El display del bloque gana en especificidad al del atributo `hidden`:
+       hay que devolvérselo explícitamente para que la lista nazca replegada. */
+    .buscador__lista[hidden] {
+        display: none;
     }
 
     .buscador__opcion {
@@ -104,10 +156,8 @@
             color: var(--color-acento-texto);
         }
 
-        .buscador__marca {
-            background-color: transparent;
-            color: var(--color-acento-texto);
-            text-decoration: underline;
+        .buscador__opcion-verso {
+            border-inline-start-color: var(--color-acento-texto);
         }
     }
 
@@ -115,6 +165,7 @@
         background-color: var(--color-panel-realce);
     }
 
+    /* Metadatos: sans-serif, alineados al margen de la opción. */
     .buscador__opcion-titulo {
         font-family: var(--fuente-lectura);
         font-size: 1.05em;
@@ -126,25 +177,29 @@
         color: var(--color-tinta-suave);
     }
 
+    /* Fragmento de poema: sangrado, filete y comillas lo separan de un vistazo
+       de los metadatos, manteniendo la serif en cursiva del lienzo de lectura. */
     .buscador__opcion-verso {
+        margin-block-start: var(--espacio-xs);
+        padding-inline-start: var(--espacio-s);
+        border-inline-start: 0.15em solid var(--color-marca);
+
         font-family: var(--fuente-lectura);
         font-size: var(--escala-menor);
         font-style: italic;
         color: var(--color-tinta-suave);
-    }
 
-    .buscador__marca {
-        background-color: var(--color-marca);
-        color: var(--color-tinta);
+        &::before {
+            content: "«";
+        }
+
+        &::after {
+            content: "»";
+        }
     }
 
     .buscador__vacio {
         padding: var(--espacio-m);
-        font-size: var(--escala-menor);
-        color: var(--color-tinta-suave);
-    }
-
-    .buscador__ayuda {
         font-size: var(--escala-menor);
         color: var(--color-tinta-suave);
     }
@@ -164,7 +219,7 @@
     transition: opacity 0.35s ease;
 
     .soneto__titulo {
-        font-size: var(--escala-subtitulo);
+        font-size: var(--escala-titulo);
         font-weight: 400;
         letter-spacing: var(--rasgo-titulo);
         color: var(--color-tinta);
@@ -177,6 +232,13 @@
         letter-spacing: 0.1em;
         text-transform: uppercase;
         color: var(--color-acento);
+        text-align: center;
+    }
+
+    .soneto__anio {
+        font-family: var(--fuente-interfaz);
+        font-size: var(--escala-menor);
+        color: var(--color-tinta-suave);
         text-align: center;
     }
 

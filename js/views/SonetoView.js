@@ -23,6 +23,14 @@ export class SonetoView {
 
     encabezado.append(titulo, autor);
 
+    // El año solo aparece si el almacén lo recoge para ese soneto.
+    if (soneto.anio !== null && soneto.anio !== undefined) {
+      const anio = document.createElement("p");
+      anio.className = "soneto__anio";
+      anio.textContent = String(soneto.anio);
+      encabezado.append(anio);
+    }
+
     const cuerpo = document.createElement("div");
     cuerpo.className = "soneto__cuerpo";
 

@@ -3,8 +3,9 @@
 
 export class AppController {
 
-  constructor({ modelo, buscadorView, sonetoView }) {
+  constructor({ modelo, navegacionView, buscadorView, sonetoView }) {
     this.modelo = modelo;
+    this.navegacionView = navegacionView;
     this.buscadorView = buscadorView;
     this.sonetoView = sonetoView;
   }
@@ -14,6 +15,7 @@ export class AppController {
     this.escucharModelo();
 
     this.sonetoView.renderizarVacio();
+    this.navegacionView.mostrarInicio();
 
     await this.modelo.inicializar();
   }
@@ -22,6 +24,7 @@ export class AppController {
     this.buscadorView.alEscribir((consulta) => this.modelo.buscar(consulta));
     this.buscadorView.alAbrir((consulta) => this.modelo.buscar(consulta));
     this.buscadorView.alSeleccionar((id) => this.modelo.seleccionar(id));
+    this.navegacionView.alVolver(() => this.modelo.volverAlInicio());
   }
 
   escucharModelo() {
@@ -30,10 +33,17 @@ export class AppController {
     this.modelo.suscribir("seleccion", (soneto) => {
       this.buscadorView.reflejarSeleccion(soneto);
       this.sonetoView.renderizar(soneto);
+      this.navegacionView.mostrarLectura();
+    });
+
+    this.modelo.suscribir("inicio", () => {
+      this.navegacionView.mostrarInicio();
+      this.buscadorView.enfocar();
     });
   }
 
   mostrarError(mensaje) {
     this.sonetoView.renderizarVacio(mensaje);
+    this.navegacionView.mostrarLectura();
   }
 }

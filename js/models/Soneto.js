@@ -20,10 +20,11 @@ export function normalizar(texto) {
 
 export class Soneto {
 
-  constructor({ id, titulo, autor, estrofas }) {
+  constructor({ id, titulo, autor, anio = null, estrofas }) {
     this.id = id;
     this.titulo = titulo;
     this.autor = autor;
+    this.anio = anio;          // opcional: solo se muestra si consta en los datos
     this.estrofas = estrofas;
 
     // Índices de búsqueda precalculados (el texto de un soneto no cambia).
@@ -46,7 +47,7 @@ export class Soneto {
    * dos cuartetos y dos tercetos, catorce versos en total.
    */
   static desdeJSON(datos) {
-    const { id, titulo, autor, estrofas } = datos;
+    const { id, titulo, autor, anio = null, estrofas } = datos;
 
     if (!id || !titulo || !autor || !Array.isArray(estrofas)) {
       throw new Error(`Soneto con datos incompletos: ${id ?? "(sin id)"}`);
@@ -80,6 +81,6 @@ export class Soneto {
 
     const ordenadas = [...estrofas].sort((una, otra) => una.orden - otra.orden);
 
-    return new Soneto({ id, titulo, autor, estrofas: ordenadas });
+    return new Soneto({ id, titulo, autor, anio, estrofas: ordenadas });
   }
 }

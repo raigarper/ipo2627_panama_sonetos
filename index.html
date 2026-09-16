@@ -16,30 +16,45 @@
 
 <body class="pagina">
 
-  <header class="cabecera">
-    <h1 class="cabecera__titulo">Sonetos</h1>
-    <p class="cabecera__lema">Catorce versos para leer despacio</p>
-  </header>
+  <main class="lector" data-navegacion>
 
-  <main class="lector">
+    <!-- Vista A · Inicio y búsqueda -->
+    <section class="vista vista--inicio" data-vista="inicio">
 
-    <aside class="buscador" data-buscador>
-      <label class="buscador__etiqueta" for="buscador-campo">Buscar soneto</label>
+      <div class="portada">
+        <h1 class="portada__titulo">Sonetos</h1>
+        <p class="portada__lema">Catorce versos para leer despacio</p>
 
-      <div class="buscador__caja">
-        <input class="buscador__campo" id="buscador-campo" type="search" role="combobox"
-               placeholder="Por título, autor o verso…" autocomplete="off" spellcheck="false"
-               aria-expanded="false" aria-controls="buscador-lista" aria-autocomplete="list"
-               data-buscador-campo>
+        <div class="buscador" data-buscador>
+          <label class="visualmente-oculta" for="buscador-campo">Buscar soneto</label>
 
-        <ul class="buscador__lista" id="buscador-lista" role="listbox" aria-label="Sonetos disponibles"
-            hidden data-buscador-lista></ul>
+          <div class="buscador__caja">
+            <input class="buscador__campo" id="buscador-campo" type="search" role="combobox"
+                   placeholder="Busca por título, autor o verso…" autocomplete="off" spellcheck="false"
+                   aria-expanded="false" aria-controls="buscador-lista" aria-autocomplete="list"
+                   data-buscador-campo>
+
+            <ul class="buscador__lista" id="buscador-lista" role="listbox" aria-label="Sonetos disponibles"
+                hidden data-buscador-lista></ul>
+          </div>
+        </div>
       </div>
 
-      <p class="buscador__ayuda">Escribe para filtrar el almacén de sonetos.</p>
-    </aside>
+    </section>
 
-    <article class="soneto soneto--vacio" aria-live="polite" data-soneto></article>
+    <!-- Vista B · Lectura del soneto -->
+    <section class="vista vista--lectura vista--oculta" data-vista="lectura" hidden>
+
+      <nav class="lectura__acciones" aria-label="Navegación del lector">
+        <button class="boton boton--volver" type="button" data-volver>
+          <span class="boton__icono" aria-hidden="true">←</span>
+          Volver a la búsqueda
+        </button>
+      </nav>
+
+      <article class="soneto soneto--vacio" aria-live="polite" data-soneto></article>
+
+    </section>
 
   </main>
 

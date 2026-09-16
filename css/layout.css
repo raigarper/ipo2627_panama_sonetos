@@ -11,33 +11,48 @@
     line-height: var(--ritmo-interfaz);
 
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: 1fr auto;
 }
 
-.cabecera {
-    padding: var(--espacio-l) var(--espacio-xl) var(--espacio-m);
+/* El lector aloja las dos vistas; solo una ocupa la rejilla cada vez. */
+.lector {
+    padding: var(--espacio-l) var(--espacio-xl);
+
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.vista {
+    inline-size: 100%;
+
+    display: grid;
+}
+
+/* --- Vista A · inicio: composición centrada y despejada --- */
+
+/* La portada se ancla en el tercio superior —no en el centro exacto— para dejar
+   por debajo el hueco que ocupará el desplegable sin provocar scroll. */
+.vista--inicio {
+    justify-items: center;
+    align-content: start;
+    padding-block-start: clamp(2rem, 12vh, 8rem);
+}
+
+.portada {
+    inline-size: min(100%, 38rem);
 
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-xs);
-}
-
-.lector {
-    padding: var(--espacio-m) var(--espacio-xl) var(--espacio-xl);
-
-    display: grid;
-    grid-template-columns: minmax(16rem, 26%) 1fr;
-    gap: var(--espacio-xl);
-    align-items: start;
+    align-items: center;
+    gap: var(--espacio-s);
 }
 
 .buscador {
-    position: sticky;
-    inset-block-start: var(--espacio-m);
+    inline-size: 100%;
+    margin-block-start: var(--espacio-l);
 
     display: flex;
     flex-direction: column;
-    gap: var(--espacio-s);
 }
 
 .buscador__caja {
@@ -47,9 +62,23 @@
     flex-direction: column;
 }
 
+/* --- Vista B · lectura --- */
+
+.vista--lectura {
+    grid-template-rows: auto 1fr;
+    gap: var(--espacio-m);
+    justify-items: center;
+}
+
+.lectura__acciones {
+    inline-size: min(100%, var(--medida-lienzo));
+
+    display: flex;
+    justify-content: flex-start;
+}
+
 .soneto {
-    inline-size: 100%;
-    min-block-size: 60vh;
+    inline-size: min(100%, var(--medida-lienzo));
     padding: var(--espacio-xl) var(--espacio-l);
 
     display: flex;
@@ -58,6 +87,7 @@
     gap: var(--espacio-l);
 }
 
+.soneto__encabezado,
 .soneto__cuerpo {
     inline-size: min(100%, var(--medida-verso));
 
@@ -66,10 +96,6 @@
 }
 
 .soneto__encabezado {
-    inline-size: min(100%, var(--medida-verso));
-
-    display: flex;
-    flex-direction: column;
     gap: var(--espacio-xs);
 }
 
@@ -80,14 +106,20 @@
     justify-content: center;
 }
 
+/* --- Alternancia de vistas: exclusión mutua gobernada por clases --- */
+
+.vista--oculta,
+.vista[hidden] {
+    display: none;
+}
+
 @media (width < 48em) {
 
     .lector {
-        grid-template-columns: 1fr;
-        gap: var(--espacio-l);
+        padding: var(--espacio-m);
     }
 
-    .buscador {
-        position: static;
+    .soneto {
+        padding: var(--espacio-l) var(--espacio-m);
     }
 }

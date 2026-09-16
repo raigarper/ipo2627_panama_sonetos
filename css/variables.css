@@ -32,6 +32,7 @@
     --fuente-interfaz: "Segoe UI", system-ui, -apple-system, sans-serif;
 
     --escala-verso: clamp(1rem, 0.85rem + 0.6vw, 1.3rem);
+    --escala-portada: clamp(2.8rem, 1.8rem + 5vw, 5.5rem);
     --escala-titulo: clamp(1.6rem, 1.2rem + 1.6vw, 2.6rem);
     --escala-subtitulo: clamp(1.25rem, 1rem + 0.9vw, 1.8rem);
     --escala-menor: 0.85rem;
@@ -42,6 +43,7 @@
 
     /* --- Espacial: medidas y ritmo --- */
     --medida-verso: 34em;               /* ≈ 60 caracteres por línea */
+    --medida-lienzo: 46rem;             /* ancho de la hoja de lectura */
     --espacio-verso: 0.15em;
     --espacio-estrofa: 1.9em;           /* Gestalt (proximidad): ≫ interlineado */
 

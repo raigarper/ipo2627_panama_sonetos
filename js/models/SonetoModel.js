@@ -7,7 +7,7 @@ const PESO_TITULO = 3;
 const PESO_AUTOR = 2;
 const PESO_VERSO = 1;
 
-export const MAXIMO_RESULTADOS = 6;
+export const MAXIMO_RESULTADOS = 3;
 
 export class SonetoModel {
 
@@ -88,11 +88,14 @@ export class SonetoModel {
     for (const termino of terminos) {
       let puntuacionTermino = 0;
 
-      if (soneto.tituloNormalizado.includes(termino)) {
+      const coincideTitulo = soneto.tituloNormalizado.includes(termino);
+      const coincideAutor = soneto.autorNormalizado.includes(termino);
+
+      if (coincideTitulo) {
         puntuacionTermino += PESO_TITULO;
       }
 
-      if (soneto.autorNormalizado.includes(termino)) {
+      if (coincideAutor) {
         puntuacionTermino += PESO_AUTOR;
       }
 
@@ -101,7 +104,10 @@ export class SonetoModel {
       if (indiceVerso !== -1) {
         puntuacionTermino += PESO_VERSO;
 
-        if (versoDestacado === null) {
+        // Solo se guarda el verso cuando el hallazgo no se explica ya por los
+        // metadatos: si el término está en el título o en el autor, el
+        // resultado se justifica solo y el fragmento de poema sobra.
+        if (versoDestacado === null && !coincideTitulo && !coincideAutor) {
           versoDestacado = soneto.versos[indiceVerso];
         }
       }
@@ -130,5 +136,11 @@ export class SonetoModel {
     this.emitir("seleccion", soneto);
 
     return soneto;
+  }
+
+  /** Abandona la lectura y devuelve la aplicación a la vista de búsqueda. */
+  volverAlInicio() {
+    this.sonetoActual = null;
+    this.emitir("inicio", null);
   }
 }

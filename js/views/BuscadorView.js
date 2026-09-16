@@ -1,8 +1,6 @@
 // BuscadorView.js — combobox de búsqueda: campo de texto + lista desplegable.
 // Solo se ocupa de presentar y de emitir intenciones del usuario.
 
-import { normalizar } from "../models/Soneto.js";
-
 export class BuscadorView {
 
   constructor(raiz) {
@@ -169,7 +167,7 @@ export class BuscadorView {
 
   // --- Pintado ------------------------------------------------------------
 
-  renderizarResultados({ resultados, terminos }) {
+  renderizarResultados({ resultados }) {
     this.lista.replaceChildren();
     this.opciones = [];
     this.indiceActivo = -1;
@@ -180,7 +178,7 @@ export class BuscadorView {
     }
 
     resultados.forEach((resultado, posicion) => {
-      const opcion = this.crearOpcion(resultado, terminos, posicion);
+      const opcion = this.crearOpcion(resultado, posicion);
       this.opciones.push(opcion);
       this.lista.append(opcion);
     });
@@ -188,7 +186,7 @@ export class BuscadorView {
     this.marcarSeleccion(this.idSeleccionado);
   }
 
-  crearOpcion({ soneto, versoDestacado }, terminos, posicion) {
+  crearOpcion({ soneto, versoDestacado }, posicion) {
     const opcion = document.createElement("li");
     opcion.className = "buscador__opcion";
     opcion.id = `buscador-opcion-${posicion}`;
@@ -198,18 +196,20 @@ export class BuscadorView {
 
     const titulo = document.createElement("span");
     titulo.className = "buscador__opcion-titulo";
-    titulo.append(...this.resaltar(soneto.titulo, terminos));
+    titulo.textContent = soneto.titulo;
 
     const autor = document.createElement("span");
     autor.className = "buscador__opcion-autor";
-    autor.append(...this.resaltar(soneto.autor, terminos));
+    autor.textContent = soneto.autor;
 
     opcion.append(titulo, autor);
 
+    // El verso solo acompaña a la opción cuando la coincidencia se produjo
+    // dentro del poema; si el soneto se encontró por título o autor, sobra.
     if (versoDestacado !== null) {
       const verso = document.createElement("span");
       verso.className = "buscador__opcion-verso";
-      verso.append(...this.resaltar(versoDestacado, terminos));
+      verso.textContent = versoDestacado;
       opcion.append(verso);
     }
 
@@ -223,72 +223,17 @@ export class BuscadorView {
     return vacio;
   }
 
-  /**
-   * Trocea el texto en nodos, envolviendo en <mark> los fragmentos que
-   * coinciden con los términos (comparados sin tildes ni mayúsculas).
-   */
-  resaltar(texto, terminos) {
-    if (terminos.length === 0) {
-      return [document.createTextNode(texto)];
-    }
-
-    const referencia = normalizar(texto);
-
-    // El resaltado se apoya en que la normalización conserva las posiciones.
-    if (referencia.length !== texto.length) {
-      return [document.createTextNode(texto)];
-    }
-
-    const coincidencias = [];
-
-    for (const termino of terminos) {
-      let desde = referencia.indexOf(termino);
-
-      while (desde !== -1) {
-        coincidencias.push({ inicio: desde, fin: desde + termino.length });
-        desde = referencia.indexOf(termino, desde + termino.length);
-      }
-    }
-
-    if (coincidencias.length === 0) {
-      return [document.createTextNode(texto)];
-    }
-
-    coincidencias.sort((una, otra) => una.inicio - otra.inicio);
-
-    const nodos = [];
-    let cursor = 0;
-
-    for (const { inicio, fin } of coincidencias) {
-      if (inicio < cursor) {
-        continue;
-      }
-
-      if (inicio > cursor) {
-        nodos.push(document.createTextNode(texto.slice(cursor, inicio)));
-      }
-
-      const marca = document.createElement("mark");
-      marca.className = "buscador__marca";
-      marca.textContent = texto.slice(inicio, fin);
-      nodos.push(marca);
-
-      cursor = fin;
-    }
-
-    if (cursor < texto.length) {
-      nodos.push(document.createTextNode(texto.slice(cursor)));
-    }
-
-    return nodos;
-  }
-
   marcarSeleccion(id) {
     this.idSeleccionado = id;
 
     for (const opcion of this.opciones) {
       opcion.classList.toggle("buscador__opcion--seleccionada", opcion.dataset.sonetoId === id);
     }
+  }
+
+  /** Devuelve el foco al campo al regresar a la vista de búsqueda. */
+  enfocar() {
+    this.campo.focus();
   }
 
   /** Refleja en el campo el soneto elegido y repliega la lista. */
