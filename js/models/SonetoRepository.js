@@ -5,11 +5,20 @@ import { Soneto } from "./Soneto.js";
 
 export class SonetoRepository {
 
-  /** @returns {Promise<Soneto[]>} */
+  
+  /** 
+   * @returns {Promise<Soneto[]>}
+   * @throws Mensaje de error en caso de ejecución desde clase Nativa 
+   */
   async obtenerTodos() {
     throw new Error("SonetoRepository.obtenerTodos() debe implementarse en una subclase.");
   }
 
+  /**
+   * 
+   * @param {string} id Identificador del soneto buscado
+   * @returns Objeto soneto encontrado, null si no lo encuentra
+   */
   async obtenerPorId(id) {
     const sonetos = await this.obtenerTodos();
     return sonetos.find((soneto) => soneto.id === id) ?? null;
@@ -28,6 +37,11 @@ export class JsonSonetoRepository extends SonetoRepository {
     this.cache = null;
   }
 
+  /**
+   * @brief Implementación del método obtenerTodos. Evita descargas innecesarias
+   * mediante comprobación de caché 
+   * @returns objetos de la clase Soneto con los datos formateados del archivo JSON
+   */
   async obtenerTodos() {
     if (this.cache !== null) {
       return this.cache;

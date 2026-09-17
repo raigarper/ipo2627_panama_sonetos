@@ -23,7 +23,7 @@ export class SonetoModel {
     this.suscriptores = new Map();
   }
 
-  // --- Observador -----------------------------------------------------
+  //--------No se por que tiene en cuenta estos eventos---
 
   suscribir(evento, callback) {
     if (!this.suscriptores.has(evento)) {
@@ -41,20 +41,23 @@ export class SonetoModel {
     }
   }
 
-  // --- Ciclo de vida --------------------------------------------------
+  //-----------------------------------------------------
 
+  /**
+   * Inicialización del contenedor de sonetos
+   */
   async inicializar() {
     this.sonetos = await this.repositorio.obtenerTodos();
     this.emitir("cargado", this.sonetos);
     this.buscar("");
   }
 
-  // --- Búsqueda -------------------------------------------------------
-
   /**
    * Filtra el almacén por título, autor y contenido de los versos.
    * Exige que todos los términos de la consulta aparezcan en el soneto
    * y ordena por relevancia (título > autor > verso).
+   * @param {*} consulta Texto buscado por usuario
+   * @returns Resultados de la consulta
    */
   buscar(consulta) {
     this.consulta = consulta;
@@ -74,7 +77,7 @@ export class SonetoModel {
   }
 
   /**
-   * Puntúa un soneto frente a los términos de búsqueda.
+   * Puntúa un soneto frente a los términos de búsqueda (Filtrado)
    * @returns {?{soneto: Soneto, puntuacion: number, versoDestacado: ?string}}
    */
   evaluar(soneto, terminos) {
@@ -125,6 +128,11 @@ export class SonetoModel {
 
   // --- Selección ------------------------------------------------------
 
+  /**
+   * Selecciona un soneto del repositorio de sonetos "sonetos"
+   * @param {*} id Identificador de soneto buscado 
+   * @returns Soneto buscado
+   */
   seleccionar(id) {
     const soneto = this.sonetos.find((candidato) => candidato.id === id) ?? null;
 
