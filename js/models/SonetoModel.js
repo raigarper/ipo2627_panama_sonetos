@@ -23,7 +23,11 @@ export class SonetoModel {
     this.suscriptores = new Map();
   }
 
-  //--------No se por que tiene en cuenta estos eventos---
+  // --- Observador -----------------------------------------------------
+  // El modelo no puede tocar el DOM ni conocer las vistas, así que no las
+  // llama: publica lo que le ocurre ("cargado", "resultados", "seleccion",
+  // "inicio") y el controlador es quien traduce cada aviso en pintado. Esto
+  // es lo que permite además probar el modelo en Node, sin navegador.
 
   suscribir(evento, callback) {
     if (!this.suscriptores.has(evento)) {
@@ -41,10 +45,11 @@ export class SonetoModel {
     }
   }
 
-  //-----------------------------------------------------
+  // --- Ciclo de vida --------------------------------------------------
 
   /**
-   * Inicialización del contenedor de sonetos
+   * Pide el almacén al repositorio y deja la aplicación lista para buscar.
+   * @returns {Promise<void>}
    */
   async inicializar() {
     this.sonetos = await this.repositorio.obtenerTodos();
@@ -52,12 +57,15 @@ export class SonetoModel {
     this.buscar("");
   }
 
+  // --- Búsqueda -------------------------------------------------------
+
   /**
    * Filtra el almacén por título, autor y contenido de los versos.
    * Exige que todos los términos de la consulta aparezcan en el soneto
    * y ordena por relevancia (título > autor > verso).
-   * @param {*} consulta Texto buscado por usuario
-   * @returns Resultados de la consulta
+   * @param {string} consulta Texto escrito por el usuario
+   * @returns {Array<{soneto: Soneto, puntuacion: number, versoDestacado: ?string}>}
+   *          Los resultados más relevantes, como mucho `maximoResultados`
    */
   buscar(consulta) {
     this.consulta = consulta;
@@ -77,8 +85,11 @@ export class SonetoModel {
   }
 
   /**
-   * Puntúa un soneto frente a los términos de búsqueda (Filtrado)
+   * Puntúa un soneto frente a los términos de búsqueda.
+   * @param {Soneto} soneto Candidato a evaluar
+   * @param {string[]} terminos Términos ya normalizados de la consulta
    * @returns {?{soneto: Soneto, puntuacion: number, versoDestacado: ?string}}
+   *          null si algún término no aparece en ninguno de sus campos
    */
   evaluar(soneto, terminos) {
     if (terminos.length === 0) {
@@ -129,9 +140,10 @@ export class SonetoModel {
   // --- Selección ------------------------------------------------------
 
   /**
-   * Selecciona un soneto del repositorio de sonetos "sonetos"
-   * @param {*} id Identificador de soneto buscado 
-   * @returns Soneto buscado
+   * Fija como actual uno de los sonetos ya cargados en memoria.
+   * @param {string} id Identificador del soneto elegido
+   * @returns {?Soneto} El soneto actual tras la operación; si el id no existe
+   *          o ya estaba seleccionado, se devuelve el actual sin emitir nada
    */
   seleccionar(id) {
     const soneto = this.sonetos.find((candidato) => candidato.id === id) ?? null;

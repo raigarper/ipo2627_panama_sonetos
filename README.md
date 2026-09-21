@@ -12,6 +12,8 @@ y dos tercetos (3 versos). Esa estructura métrica se respeta en los datos, en e
 Construida con **HTML, CSS y JavaScript Vanilla**, sin dependencias, sin framework y sin proceso de compilación.
 
 > Instrucciones de descarga y puesta en marcha: [INSTALL.md](INSTALL.md)
+>
+> Explicación del código a nivel básico, fichero a fichero y función a función: [GUIA.md](GUIA.md)
 
 ---
 
@@ -61,6 +63,7 @@ ipo2627_panama_sonetos/
 ├── index.html                 Única página de la aplicación
 ├── README.md                  Este documento
 ├── INSTALL.md                 Descarga y puesta en marcha
+├── GUIA.md                    Explicación del código a nivel básico
 ├── data/
 │   └── sonetos.json           Almacén de sonetos
 ├── css/

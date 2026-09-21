@@ -5,19 +5,18 @@ import { Soneto } from "./Soneto.js";
 
 export class SonetoRepository {
 
-  
-  /** 
+  /**
+   * Contrato que toda fuente de datos debe implementar.
    * @returns {Promise<Soneto[]>}
-   * @throws Mensaje de error en caso de ejecución desde clase Nativa 
+   * @throws {Error} Siempre: esta clase es abstracta y no accede a dato alguno.
    */
   async obtenerTodos() {
     throw new Error("SonetoRepository.obtenerTodos() debe implementarse en una subclase.");
   }
 
   /**
-   * 
    * @param {string} id Identificador del soneto buscado
-   * @returns Objeto soneto encontrado, null si no lo encuentra
+   * @returns {Promise<?Soneto>} El soneto encontrado, o null si no existe
    */
   async obtenerPorId(id) {
     const sonetos = await this.obtenerTodos();
@@ -38,9 +37,10 @@ export class JsonSonetoRepository extends SonetoRepository {
   }
 
   /**
-   * @brief Implementación del método obtenerTodos. Evita descargas innecesarias
-   * mediante comprobación de caché 
-   * @returns objetos de la clase Soneto con los datos formateados del archivo JSON
+   * Implementación de obtenerTodos sobre el fichero JSON.
+   * La caché evita descargas innecesarias: el almacén no cambia en ejecución.
+   * @returns {Promise<Soneto[]>} Entidades ya validadas a partir del JSON
+   * @throws {Error} Si la respuesta HTTP falla o el fichero no trae la lista
    */
   async obtenerTodos() {
     if (this.cache !== null) {

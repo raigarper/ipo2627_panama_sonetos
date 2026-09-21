@@ -1,8 +1,9 @@
 # CLAUDE.md — Reglas de desarrollo del proyecto
 
 Instrucciones obligatorias para cualquier agente que trabaje en este repositorio.
-El contexto funcional y la explicación fichero a fichero están en [README.md](README.md); aquí solo van las
-**normas**. Ante un conflicto entre lo que hace el código y lo que dice este documento, manda este documento.
+El contexto funcional y la explicación fichero a fichero están en [README.md](README.md), y la explicación
+detallada del código a nivel básico —cada función, con trazas y diagramas— en [GUIA.md](GUIA.md); aquí solo
+van las **normas**. Ante un conflicto entre lo que hace el código y lo que dice este documento, manda este documento.
 
 ## Contexto en una línea
 
